@@ -1,0 +1,12 @@
+{
+  "name": "steps-xcode-test",
+  "version": "1.0.0",
+  "main": "index.js",
+  "repository": "git@github.com:bitrise-io/steps-xcode-test.git",
+  "author": "Tieme van Veen <tieme.van.veen@persgroep.net>",
+  "license": "MIT",
+  "dependencies": {
+    "json2md": "^1.6.2",
+    "yamljs": "^0.3.0"
+  }
+}
