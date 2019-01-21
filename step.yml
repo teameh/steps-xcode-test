@@ -4,9 +4,7 @@ summary: |-
 description: |-
   Runs Xcode's `test` action on an iOS project.
 
-  Write the tests and run them on every build just to make sure those tiny
-  code goblins didn't put something in the code that shouldn't be there while
-  you were at the daily Scrum meeting.
+  Write the tests and run them on every build just to make sure those tiny code goblins didn't put something in the code that shouldn't be there while you were at the daily Scrum meeting.
 website: https://github.com/bitrise-io/steps-xcode-test
 source_code_url: https://github.com/bitrise-io/steps-xcode-test
 support_url: https://github.com/bitrise-io/steps-xcode-test/issues
@@ -32,8 +30,7 @@ inputs:
     opts:
       title: "Project (or Workspace) path"
       description: |-
-        A `.xcodeproj` or `.xcworkspace` path, relative to
-        the Working directory (if specified).
+        A `.xcodeproj` or `.xcworkspace` path, relative to the Working directory (if specified).
       is_required: true
   - scheme: $BITRISE_SCHEME
     opts:
@@ -49,9 +46,7 @@ inputs:
       description: |-
         Set it as it is shown in Xcode's device selection dropdown UI.
 
-        A couple of examples (the
-        actual available options depend on which versions
-        are installed):
+        A couple of examples (the actual available options depend on which versions are installed):
 
         * iPhone 6
         * iPhone 6 Plus
@@ -63,12 +58,9 @@ inputs:
     opts:
       title: "OS version"
       description: |-
-        Set it as it is shown in
-        Xcode's device selection dropdown UI.
+        Set it as it is shown in Xcode's device selection dropdown UI.
 
-        A couple of format examples (the
-        actual available options depend on which versions
-        are installed):
+        A couple of format examples (the actual available options depend on which versions are installed):
 
         * 8.4
         * latest
@@ -79,9 +71,7 @@ inputs:
       description: |-
         Set it as it is shown in Xcode's device selection dropdown UI.
 
-        A couple of examples (the
-        actual available options depend on which versions
-        are installed):
+        A couple of examples (the actual available options depend on which versions are installed):
 
         * iOS Simulator
         * tvOS Simulator
@@ -102,8 +92,7 @@ inputs:
     opts:
       title: "Generate code coverage files?"
       description: |-
-        In case of `generate_code_coverage_files: "yes"`
-        `xcodebuild` gets two additional flags:
+        In case of `generate_code_coverage_files: "yes"` `xcodebuild` gets two additional flags:
 
         * GCC_INSTRUMENT_PROGRAM_FLOW_ARCS=YES
         * GCC_GENERATE_TEST_COVERAGE_FILES=YES
@@ -174,8 +163,7 @@ inputs:
           build test
           -destination platform=PLATFORM Simulator,name=NAME,OS=VERSION`
 
-        In case of `generate_code_coverage_files: "yes"`
-        `xcodebuild` gets two additional flags:
+        In case of `generate_code_coverage_files: "yes"` `xcodebuild` gets two additional flags:
 
         * GCC_INSTRUMENT_PROGRAM_FLOW_ARCS=YES
         * GCC_GENERATE_TEST_COVERAGE_FILES=YES
