@@ -1,97 +1,492 @@
-# Run Xcode Test step
+# Xcode Test for iOS
 
-The new Run Xcode Test step.
-
-## How to use this Step
-
-Can be run directly with the [bitrise CLI](https://github.com/bitrise-io/bitrise),
-just `git clone` this repository, `cd` into it's folder in your Terminal/Command Line
-and call `bitrise run test`.
-
-*Check the `bitrise.yml` file for required inputs which have to be
-added to your `.bitrise.secrets.yml` file!*
-
-Step by step:
-
-1. Open up your Terminal / Command Line
-2. `git clone` the repository
-3. `cd` into the directory of the step (the one you just `git clone`d)
-5. Create a `.bitrise.secrets.yml` file in the same directory of `bitrise.yml`
-   (the `.bitrise.secrets.yml` is a git ignored file, you can store your secrets in it)
-6. Check the `bitrise.yml` file for any secret you should set in `.bitrise.secrets.yml`
-  * Best practice is to mark these options with something like `# define these in your .bitrise.secrets.yml`, in the `app:envs` section.
-7. Once you have all the required secret parameters in your `.bitrise.secrets.yml` you can just run this step with the [bitrise CLI](https://github.com/bitrise-io/bitrise): `bitrise run test`
-
-An example `.bitrise.secrets.yml` file:
-
-```
-envs:
-- A_SECRET_PARAM_ONE: the value for secret one
-- A_SECRET_PARAM_TWO: the value for secret two
-```
-
-## How to create your own step
-
-1. Create a new git repository for your step (**don't fork** the *step template*, create a *new* repository)
-2. Copy the [step template](https://github.com/bitrise-steplib/step-template) files into your repository
-3. Fill the `step.sh` with your functionality
-4. Wire out your inputs to `step.yml` (`inputs` section)
-5. Fill out the other parts of the `step.yml` too
-6. Provide test values for the inputs in the `bitrise.yml`
-7. Run your step with `bitrise run test` - if it works, you're ready
-
-__For Step development guidelines & best practices__ check this documentation: [https://github.com/bitrise-io/bitrise/blob/master/_docs/step-development-guideline.md](https://github.com/bitrise-io/bitrise/blob/master/_docs/step-development-guideline.md).
-
-**NOTE:**
-
-If you want to use your step in your project's `bitrise.yml`:
-
-1. git push the step into it's repository
-2. reference it in your `bitrise.yml` with the `git::PUBLIC-GIT-CLONE-URL@BRANCH` step reference style:
-
-```
-- git::https://github.com/user/my-step.git@branch:
-   title: My step
-   inputs:
-   - my_input_1: "my value 1"
-   - my_input_2: "my value 2"
-```
-
-You can find more examples of step reference styles
-in the [bitrise CLI repository](https://github.com/bitrise-io/bitrise/blob/master/_examples/tutorials/steps-and-workflows/bitrise.yml#L65).
-
-## How to contribute to this Step
-
-1. Fork this repository
-2. `git clone` it
-3. Create a branch you'll work on
-4. To use/test the step just follow the **How to use this Step** section
-5. Do the changes you want to
-6. Run/test the step before sending your contribution
-  * You can also test the step in your `bitrise` project, either on your Mac or on [bitrise.io](https://www.bitrise.io)
-  * You just have to replace the step ID in your project's `bitrise.yml` with either a relative path, or with a git URL format
-  * (relative) path format: instead of `- original-step-id:` use `- path::./relative/path/of/script/on/your/Mac:`
-  * direct git URL format: instead of `- original-step-id:` use `- git::https://github.com/user/step.git@branch:`
-  * You can find more example of alternative step referencing at: https://github.com/bitrise-io/bitrise/blob/master/_examples/tutorials/steps-and-workflows/bitrise.yml
-7. Once you're done just commit your changes & create a Pull Request
+## Runs Xcode's `test` action on an iOS project.
 
 
-## Share your own Step
+Runs Xcode's `test` action on an iOS project.
 
-You can share your Step or step version with the [bitrise CLI](https://github.com/bitrise-io/bitrise). If you use the `bitrise.yml` included in this repository, all you have to do is:
 
-1. In your Terminal / Command Line `cd` into this directory (where the `bitrise.yml` of the step is located)
-1. Run: `bitrise run test` to test the step
-1. Run: `bitrise run audit-this-step` to audit the `step.yml`
-1. Check the `share-this-step` workflow in the `bitrise.yml`, and fill out the
-   `envs` if you haven't done so already (don't forget to bump the version number if this is an update
-   of your step!)
-1. Then run: `bitrise run share-this-step` to share the step (version) you specified in the `envs`
-1. Send the Pull Request, as described in the logs of `bitrise run share-this-step`
 
-That's all ;)
+Write the tests and run them on every build just to make sure those tiny code goblins didn't put something in the code that shouldn't be there while you were at the daily Scrum meeting.
 
-## Trigger a new release
+### Inputs:
 
-- __merge every code changes__ to the `master` branch
-- __push the new version tag__ to the `master` branch
+### project_path = `$BITRISE_PROJECT_PATH`
+
+##### Project (or Workspace) path
+
+
+A `.xcodeproj` or `.xcworkspace` path, relative to the Working directory (if specified).
+
+##### Required
+
+
+`true`
+
+### scheme = `$BITRISE_SCHEME`
+
+##### Scheme name
+
+
+The Scheme to use.
+
+
+
+**IMPORTANT**: The Scheme has to be marked as __shared__ in Xcode!
+
+##### Required
+
+
+`true`
+
+### simulator_device = `iPhone 6s Plus`
+
+##### Device
+
+
+Set it as it is shown in Xcode's device selection dropdown UI.
+
+
+
+A couple of examples (the actual available options depend on which versions are installed):
+
+
+
+* iPhone 6
+
+* iPhone 6 Plus
+
+* iPad
+
+* iPad Air
+
+* Apple TV 1080p (don't forget to set the platform to `tvOS Simulator` to use this option!)
+
+##### Required
+
+
+`true`
+
+### simulator_os_version = `latest`
+
+##### OS version
+
+
+Set it as it is shown in Xcode's device selection dropdown UI.
+
+
+
+A couple of format examples (the actual available options depend on which versions are installed):
+
+
+
+* 8.4
+
+* latest
+
+##### Required
+
+
+`true`
+
+### simulator_platform = `iOS Simulator`
+
+##### Platform
+
+
+Set it as it is shown in Xcode's device selection dropdown UI.
+
+
+
+A couple of examples (the actual available options depend on which versions are installed):
+
+
+
+* iOS Simulator
+
+* tvOS Simulator
+
+##### Required
+
+
+`true`
+
+##### Value options:
+
+
+`iOS Simulator` `tvOS Simulator`
+
+### export_uitest_artifacts = `false`
+
+##### Export UITest Artifacts
+
+
+If enabled, the attachments of the UITest will be exported into the BITRISE_DEPLOY_DIR, as a compressed ZIP file.
+
+Attachments include screenshots taken during the UI test, and other artifacts.
+
+##### Required
+
+
+`false`
+
+##### Value options:
+
+
+`true` `false`
+
+### generate_code_coverage_files = `no`
+
+##### Generate code coverage files?
+
+
+In case of `generate_code_coverage_files: "yes"` `xcodebuild` gets two additional flags:
+
+
+
+* GCC_INSTRUMENT_PROGRAM_FLOW_ARCS=YES
+
+* GCC_GENERATE_TEST_COVERAGE_FILES=YES
+
+##### Required
+
+
+`true`
+
+##### Value options:
+
+
+`yes` `no`
+
+### verbose = `no`
+
+##### Enable verbose log?
+
+
+You can enable the verbose log for easier debugging.
+
+##### Category
+
+
+Debug
+
+##### Required
+
+
+`false`
+
+##### Value options:
+
+
+`yes` `no`
+
+### headless_mode = `yes`
+
+##### Run the test in headless mode?
+
+##### Summary
+
+
+In headless mode the simulator is not launched in the foreground.
+
+
+If you run your tests in headless mode the xcodebuild will start a simulator in a background.
+
+In headless mode the simulator will not be visible but your tests (even the screenshots) will run just like if you run a simulator in foreground.
+
+
+
+**NOTE:** Headless mode is available with Xcode 9.x or newer.
+
+##### Category
+
+
+Debug
+
+##### Required
+
+
+`false`
+
+##### Value options:
+
+
+`yes` `no`
+
+### workdir = `$BITRISE_SOURCE_DIR`
+
+##### Working directory
+
+
+Working directory of the step.
+
+You can leave it empty to leave the working directory unchanged.
+
+##### Category
+
+
+Debug
+
+##### Required
+
+
+`false`
+
+### is_clean_build = `no`
+
+##### Do a clean Xcode build before testing?
+
+##### Category
+
+
+Debug
+
+##### Required
+
+
+`true`
+
+##### Value options:
+
+
+`yes` `no`
+
+### output_tool = `xcpretty`
+
+##### Output tool
+
+
+If output_tool is set to xcpretty, the xcodebuild output will be prettified by xcpretty.
+
+If output_tool is set to xcodebuild, the raw xcodebuild output will be printed.
+
+##### Category
+
+
+Debug
+
+##### Required
+
+
+`true`
+
+##### Value options:
+
+
+`xcpretty` `xcodebuild`
+
+### xcodebuild_test_options = ``
+
+##### Additional options for `xcodebuild build test` call
+
+
+Options added to the end of the `xcodebuild build test` call.
+
+
+
+If you leave empty this input, xcodebuild will be called as:
+
+
+
+`xcodebuild
+
+  -project\-workspace PROJECT.xcodeproj\WORKSPACE.xcworkspace
+
+  -scheme SCHEME
+
+  build test
+
+  -destination platform=PLATFORM Simulator,name=NAME,OS=VERSION`
+
+
+
+In case of `generate_code_coverage_files: "yes"` `xcodebuild` gets two additional flags:
+
+
+
+* GCC_INSTRUMENT_PROGRAM_FLOW_ARCS=YES
+
+* GCC_GENERATE_TEST_COVERAGE_FILES=YES
+
+
+
+If you want to add more options, list that separated by space character.
+
+Example: `-xcconfig PATH -verbose`
+
+##### Category
+
+
+Debug
+
+##### Required
+
+
+`false`
+
+### single_build = `true`
+
+##### Run xcodebuild test only
+
+
+If `single_build` is set to false, the step runs `xcodebuild OPTIONS build OPTIONS` before the test 
+
+to generate the project derived data. After that comes `xcodebuild OPTIONS build test OPTIONS`. This command's log is presented in the step's log.
+
+
+
+If `single_build` is set to true, then the step calls only `xcodebuild OPTIONS build test OPTIONS`.
+
+##### Category
+
+
+Debug
+
+##### Required
+
+
+`false`
+
+##### Value options:
+
+
+`true` `false`
+
+### should_build_before_test = `yes`
+
+##### (Experimental) Explicitly perform a build before testing?
+
+
+Previous Xcode versions and configurations may throw the error `iPhoneSimulator: Timed out waiting 120 seconds for simulator to boot, current state is 1.`
+
+when the compilation before performing the tests takes too long.
+
+
+
+This is fixed by running `xcodebuild OPTIONS build test OPTIONS` instead of `xcodebuild OPTIONS test OPTIONS`.
+
+Calling an explicit build before the test results in the code being compiled twice, thus creating an overhead.
+
+
+
+Unless you are sure that your configuration is not prone to this error, it is recommended to leave this option turned on.
+
+##### Category
+
+
+Debug
+
+##### Required
+
+
+`true`
+
+##### Value options:
+
+
+`yes` `no`
+
+### should_retry_test_on_fail = `no`
+
+##### (Experimental) Rerun test, when it fails?
+
+
+If `should_retry_test_on_fail: yes` step will retry the test if first attempt failed.
+
+##### Category
+
+
+Debug
+
+##### Required
+
+
+`true`
+
+##### Value options:
+
+
+`yes` `no`
+
+### xcpretty_test_options = `--color --report html --output "${BITRISE_DEPLOY_DIR}/xcode-test-results-${BITRISE_SCHEME}.html"`
+
+##### Additional options for `xcpretty` test call
+
+
+Options added to the end of the `xcpretty` test call.
+
+
+
+If you leave empty this input, xcpretty will be called as:
+
+
+
+`set -o pipefail && XCODEBUILD_TEST_COMMAND | xcpretty`
+
+
+
+In case of leaving this input on default value:
+
+
+
+`set -o pipefail && XCODEBUILD_TEST_COMMAND | xcpretty --color --report html --color --report html --output "${BITRISE_DEPLOY_DIR}/xcode-test-results-${BITRISE_SCHEME}.html"
+
+
+
+If you want to add more options, list that separated by space character.
+
+##### Category
+
+
+Debug
+
+##### Required
+
+
+`false`
+
+### Output:
+
+### BITRISE_XCODE_TEST_RESULT = `null`
+
+##### Result of the tests. 'succeeded' or 'failed'.
+
+##### Required
+
+
+`false`
+
+##### Value options:
+
+
+`succeeded` `failed`
+
+### BITRISE_XCODE_RAW_TEST_RESULT_TEXT_PATH = `null`
+
+##### The full, raw test output file path
+
+
+This is the path of the raw test results log file.
+
+
+
+If the compilation fails this log will contain the compilation output,
+
+if the tests can be started it'll only include the test output.
+
+##### Required
+
+
+`false`
+
+### BITRISE_XCODE_TEST_ATTACHMENTS_PATH = `null`
+
+##### The full, test attachments zip path
+
+
+This is the path of the test attachments zip.
+
+##### Required
+
+
+`false`
